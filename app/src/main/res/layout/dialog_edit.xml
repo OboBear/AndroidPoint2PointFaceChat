@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="本机ip:" />
 			<TextView
-                android:id="@+id/text_my_ip"
+                android:id="@+id/tv_my_ip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="本机ip:" />

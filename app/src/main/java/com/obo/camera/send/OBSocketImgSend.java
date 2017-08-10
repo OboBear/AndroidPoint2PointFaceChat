@@ -15,6 +15,9 @@ import android.util.Log;
 
 public class OBSocketImgSend {
     private final static String TAG = "OBSendImg";
+
+    private static final String STATUS_SUCCESS = "SUCCESS";
+
     private String url;
     private int port;
 
@@ -25,39 +28,6 @@ public class OBSocketImgSend {
         initSocket();
     }
 
-    public void setIp(String ip) {
-        this.url = ip;
-
-        new Thread() {
-            @Override
-            public void run() {
-                initFlag = true;
-                try {
-                    sleep(500);
-                } catch (InterruptedException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-                closeSocket();
-
-
-                initSocket();
-
-
-                initFlag = false;
-            }
-
-        }.start();
-
-
-        sendingFree = false;
-
-
-    }
-
-    boolean close = false;
-
     public void sendImg(Bitmap img, float quality) {
         Matrix matrix = new Matrix();
         matrix.postScale(quality, quality);
@@ -67,9 +37,8 @@ public class OBSocketImgSend {
         processFrame(baos.toByteArray());
     }
 
-    int dif = 0;
-    boolean sendingFree = true;
-    boolean initFlag = false;
+    private boolean sendingFree = true;
+    private boolean initFlag = false;
 
     protected void processFrame(final byte[] imgData) {
         // TODO Auto-generated method stub
@@ -81,27 +50,22 @@ public class OBSocketImgSend {
                     sendingFree = false;
 
                     send(imgData);
-                    dif = 0;
                     sendingFree = true;
                 }
             }
         }.start();
     }
 
-    int number = 0;
     Socket s = null;
     BufferedReader br = null;
     PrintWriter pw = null;
     String line = "";
-    //������Ƶ��
     DataOutputStream out = null;
 
     private void initSocket() {
-        //����Ѿ����ڵ�socket����
         closeSocket();
-        // ����socket
+        // socket
         try {
-
             s = new Socket(url, port);
 //			s.setReuseAddress(true);
 //			s.setKeepAlive(true);
@@ -169,17 +133,16 @@ public class OBSocketImgSend {
 
     void send(byte[] imgData) {
 
-        Log.i("", "send length:" + imgData.length);
+        Log.i(TAG, "send length:" + imgData.length);
         try {
             pw.println("" + imgData.length);
             line = br.readLine();
-            if (!line.equals("SUCCESS")) {
-                Log.i("", "connect fail 1 ");
+            if (!line.equals(STATUS_SUCCESS)) {
+                Log.i(TAG, "connect fail");
                 closeSocket();
-                Log.i("", "connect fail 2");
                 return;
             }
-            Log.i("", "connect SUCCESS");
+            Log.i(TAG, "connect SUCCESS");
 
             int start = 0;
             int maxLength = 1024;

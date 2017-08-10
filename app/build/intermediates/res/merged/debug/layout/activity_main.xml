@@ -24,10 +24,10 @@
         android:layout_marginBottom="50dp"
         android:orientation="vertical" >
         
-        <!--<com.obo.camera.surface.OBCameraView-->
-            <!--android:id="@+id/view_camera_test"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+        <com.obo.camera.surface.OBCameraView
+            android:id="@+id/view_camera_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </RelativeLayout>

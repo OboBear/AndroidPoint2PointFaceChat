@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.util.Log;
 
 /**
- * socket
+ * mSocket
  *
  * @author obo
  */
@@ -22,18 +22,18 @@ public class OBSocketImgGet {
 
     private final static String TAG = "OBSocketImgGet";
 
-    private Handler handler = null;
-    private OBSocketImgGetAgent agent = null;
-    private ServerSocket serverSocket = null;
-    private Socket socket = null;
-    private BufferedReader br = null;
-    private PrintWriter pw = null;
+    private Handler mHandler = null;
+    private OBSocketImgGetAgent mAgent = null;
+    private ServerSocket mServerSocket = null;
+    private Socket mSocket = null;
+    private BufferedReader mBufferedReader = null;
+    private PrintWriter mPrintWriter = null;
 
     private int port = 0;
 
-    public OBSocketImgGet(OBSocketImgGetAgent agent, Handler handler, int port) {
-        this.handler = handler;
-        this.agent = agent;
+    public OBSocketImgGet(OBSocketImgGetAgent agent, Handler mHandler, int port) {
+        this.mHandler = mHandler;
+        this.mAgent = agent;
         this.port = port;
 
         aliveFlag = true;
@@ -64,15 +64,15 @@ public class OBSocketImgGet {
 
             while (aliveFlag) {
                 try {
-                    final String line = new String(br.readLine().getBytes("UTF-8"));
+                    final String line = new String(mBufferedReader.readLine().getBytes("UTF-8"));
 
                     System.out.println(line);
                     int length = Integer.parseInt(line);
 
-                    pw.println("SUCCESS");
+                    mPrintWriter.println("SUCCESS");
 
                     Log.i(TAG, "length:" + length);
-                    DataInputStream in = new DataInputStream(socket.getInputStream());
+                    DataInputStream in = new DataInputStream(mSocket.getInputStream());
                     final byte[] testR = new byte[length];
 
                     int start = 0;
@@ -87,11 +87,11 @@ public class OBSocketImgGet {
                             break;
                     }
 
-                    handler.post(new Runnable() {
+                    mHandler.post(new Runnable() {
                         public void run() {
                             final Bitmap piture = BitmapFactory
                                     .decodeByteArray(testR, 0, testR.length);
-                            agent.getImg(piture);
+                            mAgent.getImg(piture);
                         }
                     });
                 } catch (IOException ie) {
@@ -113,52 +113,52 @@ public class OBSocketImgGet {
     }
 
     private void closeSocket() {
-        if (br != null) {
+        if (mBufferedReader != null) {
             try {
-                br.close();
+                mBufferedReader.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            br = null;
+            mBufferedReader = null;
         }
 
-        if (pw != null) {
-            pw.close();
-            pw = null;
+        if (mPrintWriter != null) {
+            mPrintWriter.close();
+            mPrintWriter = null;
         }
 
-        if (socket != null) {
+        if (mSocket != null) {
             try {
-                socket.close();
+                mSocket.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            socket = null;
+            mSocket = null;
         }
-        if (serverSocket != null) {
+        if (mServerSocket != null) {
             try {
-                serverSocket.close();
+                mServerSocket.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            serverSocket = null;
+            mServerSocket = null;
         }
     }
 
     private void initSocket() throws Exception {
 
-        Log.i(TAG, "");
-        serverSocket = new ServerSocket(port);
+        Log.i(TAG, "initSocket");
+        mServerSocket = new ServerSocket(port);
 
         System.out.println("Server is starting...");
-        Log.i(TAG, "");
-        socket = serverSocket.accept();
-        System.out.println("" + socket.getInetAddress());
-        br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        pw = new PrintWriter(socket.getOutputStream(), true);
+        Log.i(TAG, "initSocket");
+        mSocket = mServerSocket.accept();
+        System.out.println("" + mSocket.getInetAddress());
+        mBufferedReader = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
+        mPrintWriter = new PrintWriter(mSocket.getOutputStream(), true);
     }
 
 }

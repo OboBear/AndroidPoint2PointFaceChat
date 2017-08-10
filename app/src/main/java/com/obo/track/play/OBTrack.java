@@ -4,15 +4,12 @@ package com.obo.track.play;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.os.Handler;
-import android.util.Log;
 
 public class OBTrack {
 
     protected AudioTrack audioTrack;
-    protected int m_out_buf_size;
-    protected byte[] m_out_bytes;
-    protected boolean m_keep_running;
+    protected int mOutBufSize;
+    protected boolean mIsAlive;
 
     public OBTrack() {
         init();
@@ -21,15 +18,15 @@ public class OBTrack {
     public void init() {
 
         try {
-            m_keep_running = true;
+            mIsAlive = true;
 
-            m_out_buf_size = AudioTrack.getMinBufferSize(8000,
+            mOutBufSize = AudioTrack.getMinBufferSize(8000,
                     AudioFormat.CHANNEL_CONFIGURATION_MONO,
                     AudioFormat.ENCODING_PCM_16BIT);
 
             audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 8000,
                     AudioFormat.CHANNEL_CONFIGURATION_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT, m_out_buf_size,
+                    AudioFormat.ENCODING_PCM_16BIT, mOutBufSize,
                     AudioTrack.MODE_STREAM);
             audioTrack.play();
         } catch (Exception e) {
@@ -40,7 +37,7 @@ public class OBTrack {
 
     public void close() {
 
-        m_keep_running = false;
+        mIsAlive = false;
 
         try {
             audioTrack.stop();

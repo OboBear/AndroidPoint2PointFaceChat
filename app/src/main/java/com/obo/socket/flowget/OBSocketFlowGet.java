@@ -49,7 +49,7 @@ public class OBSocketFlowGet {
         closeFlag = true;
 
         closeSocket();
-        Log.i(TAG, TAG + "��  ������� �ͷŶ˿ڣ�" + port);
+        Log.i(TAG, TAG + "" + port);
     }
 
     private void startSocket() {
@@ -102,7 +102,7 @@ public class OBSocketFlowGet {
             }
         }
         closeSocket();
-        Log.i(TAG, TAG + "��  ��������ͷŶ˿ڣ�" + port);
+        Log.i(TAG, "port = " + port);
     }
 
     private void closeSocket() {
@@ -140,15 +140,13 @@ public class OBSocketFlowGet {
     }
 
 
-    private void initSocket() throws IOException, Exception {
-        Log.i("", "�󶨵��˿ڼ���:" + port);
+    private void initSocket() throws Exception {
+        Log.i(TAG, "initSocket port = " + port);
         ss = new ServerSocket(port);
-        Log.i("", "�󶨵��˿ڼ���ɹ���");
-        System.out.println("Server is starting...");
+        Log.i(TAG, "initSocket Server is starting...");
         s = ss.accept();
-        System.out.println("�ͻ���1ip��" + s.getInetAddress());
-        br = new BufferedReader(new InputStreamReader(
-                s.getInputStream()));
+        Log.i(TAG, "initSocket getInetAddress = " + s.getInetAddress());
+        br = new BufferedReader(new InputStreamReader(s.getInputStream()));
         pw = new PrintWriter(s.getOutputStream(), true);
     }
 

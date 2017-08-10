@@ -23,51 +23,61 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
 
     private final static String TAG = "MainActivity";
 
-    OBSocketImgGet imgGet[] = new OBSocketImgGet[3];
-    OBSocketImgSend imgSend[] = new OBSocketImgSend[3];
+    private static final int SIZE_MAX_GET = 3;
+    private static final int SIZE_MAX_SEND = 3;
 
-    OBSendFlow sendF = null;
-    OBSocketFlowGet getF = null;
+    private OBSocketImgGet imgGet[] = new OBSocketImgGet[SIZE_MAX_GET];
+    private OBSocketImgSend imgSend[] = new OBSocketImgSend[SIZE_MAX_SEND];
 
-    ImageView imgOther = null;
-    OBCameraView oboCamera = null;
+    private OBSendFlow mSendFlow = null;
+    private OBSocketFlowGet mSocketFlowGet = null;
 
-    OBRecord oboRecord = null;
-    OBTrack oboTrack = null;
+    private ImageView imgOther = null;
+    private OBCameraView oboCamera = null;
 
-    //
-    Handler handler = new Handler();
+    private OBRecord oboRecord = null;
+    private OBTrack oboTrack = null;
+
+    private Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-//		initActions();
     }
 
     private void initViews() {
-        imgOther = (ImageView) findViewById(R.id.img_friend);
-//		oboCamera = (OBCameraView)findViewById(R.id.view_camera_test);
-//		oboCamera.setImgAgent(this, handler);
+        imgOther = findViewById(R.id.img_friend);
     }
 
     private void initActions() {
+
         for (int i = 0; i < imgGet.length; i++) {
-            if (imgGet[i] == null)
+            if (imgGet[i] == null) {
                 imgGet[i] = new OBSocketImgGet(this, handler, 10000 + i);
-            if (imgSend[i] == null)
+            }
+
+            if (imgSend[i] == null) {
                 imgSend[i] = new OBSocketImgSend(IP, 10000 + i);
+            }
         }
 
-        if (sendF == null)
-            sendF = new OBSendFlow(IP, 10005);
-        if (getF == null)
-            getF = new com.obo.socket.flowget.OBSocketFlowGet(this, handler, 10005);
-        if (oboRecord == null)
+        if (mSendFlow == null) {
+            mSendFlow = new OBSendFlow(IP, 10005);
+        }
+
+        if (mSocketFlowGet == null) {
+            mSocketFlowGet = new com.obo.socket.flowget.OBSocketFlowGet(this, handler, 10005);
+        }
+
+        if (oboRecord == null) {
             oboRecord = new OBRecord(this);
-        if (oboTrack == null)
+        }
+
+        if (oboTrack == null) {
             oboTrack = new OBTrack();
+        }
     }
 
     @Override
@@ -82,28 +92,18 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
 
     @Override
     public void changeIp() {
-        // TODO Auto-generated method stub
-        /*for(int i=0;i<imgSend.length;i++)
-        {
-			imgSend[i].setIp(IP);// = new OBSocketImgSend(IP, 10000+i);
-		}
-		
-		sendF 	=  new OBSendFlow(IP,10000);*/
         closeAll();
         initActions();
-
     }
 
-    int currentSend = 0;
+    private int currentSend = 0;
 
     @Override
     public void getCameraImg(Bitmap arg0) {
         // TODO Auto-generated method stub
-        currentSend %= 3;
+        currentSend %= SIZE_MAX_SEND;
         if (imgSend[currentSend] != null) {
-
             imgSend[currentSend].sendImg(arg0, 0.2f);
-
             currentSend++;
         }
     }
@@ -111,8 +111,8 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     @Override
     public void sendFlow(byte[] arg0) {
         // TODO Auto-generated method stub
-        if (sendF != null)
-            sendF.sendFlow(arg0);
+        if (mSendFlow != null)
+            mSendFlow.sendFlow(arg0);
     }
 
     @Override
@@ -125,21 +125,20 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "��� onResume");
+        Log.i(TAG, "onResume");
         initActions();
     }
 
-    //��ԭ
     @Override
     public void onStart() {
         super.onStart();
-        Log.i(TAG, "��� onStart");
+        Log.i(TAG, "onStart");
         initActions();
     }
 
     @Override
     public void onPause() {
-        Log.i(TAG, "��� onPause");
+        Log.i(TAG, "onPause");
 
         closeAll();
 
@@ -165,22 +164,22 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
             }
             oboTrack = null;
         }
-        if (getF != null) {
+        if (mSocketFlowGet != null) {
             try {
-                getF.close();
+                mSocketFlowGet.close();
             } catch (Exception e) {
 
             }
-            getF = null;
+            mSocketFlowGet = null;
         }
 
-        if (sendF != null) {
+        if (mSendFlow != null) {
             try {
-                sendF.close();
+                mSendFlow.close();
             } catch (Exception e) {
 
             }
-            sendF = null;
+            mSendFlow = null;
         }
 
         for (int i = 0; i < imgGet.length; i++) {
