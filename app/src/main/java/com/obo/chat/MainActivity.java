@@ -3,7 +3,7 @@ package com.obo.chat;
 import com.obo.camera.get.OBSocketImgGet;
 import com.obo.camera.get.OBSocketImgGetAgent;
 import com.obo.camera.send.OBSocketImgSend;
-import com.obo.camera.surface.OBCameraAgent;
+import com.obo.camera.surface.OBCameraListener;
 import com.obo.camera.surface.OBCameraView;
 import com.obo.record.get.OBRecord;
 import com.obo.record.get.OBRecordFlowAgent;
@@ -19,7 +19,7 @@ import android.graphics.Matrix;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, OBCameraAgent, OBRecordFlowAgent, OBSocketFlowGetAgent {
+public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, OBCameraListener, OBRecordFlowAgent, OBSocketFlowGetAgent {
 
     private final static String TAG = "MainActivity";
 
@@ -81,12 +81,12 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     }
 
     @Override
-    public void getImg(Bitmap arg0) {
+    public void getImg(Bitmap bmp) {
         // TODO Auto-generated method stub
         Matrix matrix = new Matrix();
         matrix.postRotate(-90);
-        arg0 = Bitmap.createBitmap(arg0, 0, 0, arg0.getWidth(), arg0.getHeight(), matrix, true);
-        imgOther.setImageBitmap(arg0);
+        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        imgOther.setImageBitmap(bmp);
     }
 
 
@@ -99,11 +99,11 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     private int currentSend = 0;
 
     @Override
-    public void getCameraImg(Bitmap arg0) {
+    public void onCameraImgGet(Bitmap image) {
         // TODO Auto-generated method stub
         currentSend %= SIZE_MAX_SEND;
         if (imgSend[currentSend] != null) {
-            imgSend[currentSend].sendImg(arg0, 0.2f);
+            imgSend[currentSend].sendImg(image, 0.2f);
             currentSend++;
         }
     }

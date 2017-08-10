@@ -34,11 +34,11 @@ public abstract class OBBaseSurfaceView extends SurfaceView implements
         mHolder.addCallback(this);
     }
 
-    private OBCameraAgent agent = null;
+    private OBCameraListener mAgent = null;
     private Handler handler = null;
 
-    public void setImgAgent(OBCameraAgent agent, Handler handler) {
-        this.agent = agent;
+    public void setImgAgent(OBCameraListener agent, Handler handler) {
+        this.mAgent = agent;
         this.handler = handler;
     }
 
@@ -127,10 +127,10 @@ public abstract class OBBaseSurfaceView extends SurfaceView implements
                         piture = BitmapFactory.decodeByteArray(tmp, 0,
                                 tmp.length);
                         Log.i(TAG, "base");
-                        if (agent != null) {
+                        if (mAgent != null) {
                             new Thread() {
                                 public void run() {
-                                    agent.getCameraImg(piture);
+                                    mAgent.onCameraImgGet(piture);
                                 }
                             }.start();
                         }

@@ -32,23 +32,19 @@ public class OBSocketImgSend {
         Matrix matrix = new Matrix();
         matrix.postScale(quality, quality);
         img = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.PNG, 10, baos);
-        processFrame(baos.toByteArray());
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 10, byteArrayOutputStream);
+        processFrame(byteArrayOutputStream.toByteArray());
     }
 
     private boolean sendingFree = true;
-    private boolean initFlag = false;
 
     protected void processFrame(final byte[] imgData) {
         // TODO Auto-generated method stub
         new Thread() {
             public void run() {
-                if (initFlag) return;
-
                 if (sendingFree) {
                     sendingFree = false;
-
                     send(imgData);
                     sendingFree = true;
                 }
@@ -56,34 +52,29 @@ public class OBSocketImgSend {
         }.start();
     }
 
-    Socket s = null;
-    BufferedReader br = null;
-    PrintWriter pw = null;
-    String line = "";
-    DataOutputStream out = null;
+    private Socket mSocket = null;
+    private BufferedReader mBufferedReader = null;
+    private PrintWriter mPrintWriter = null;
+    private DataOutputStream mDataOutputStream = null;
 
     private void initSocket() {
         closeSocket();
         // socket
         try {
-            s = new Socket(url, port);
-//			s.setReuseAddress(true);
-//			s.setKeepAlive(true);
+            mSocket = new Socket(url, port);
+//			mSocket.setReuseAddress(true);
+//			mSocket.setKeepAlive(true);
 
-            pw = new PrintWriter(s.getOutputStream(), true);
-            br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            out = new DataOutputStream(s.getOutputStream());
+            mPrintWriter = new PrintWriter(mSocket.getOutputStream(), true);
+            mBufferedReader = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
+            mDataOutputStream = new DataOutputStream(mSocket.getOutputStream());
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-
-            Log.i(TAG, "");
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -95,39 +86,39 @@ public class OBSocketImgSend {
 
 
     private void closeSocket() {
-        if (br != null) {
+        if (mBufferedReader != null) {
             try {
-                br.close();
+                mBufferedReader.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
-            br = null;
+            mBufferedReader = null;
         }
-        if (pw != null) {
-            pw.close();
-            pw = null;
+        if (mPrintWriter != null) {
+            mPrintWriter.close();
+            mPrintWriter = null;
         }
 
-        if (s != null) {
+        if (mSocket != null) {
             try {
-                s.close();
+                mSocket.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            s = null;
+            mSocket = null;
         }
 
-        if (out != null) {
+        if (mDataOutputStream != null) {
             try {
-                out.close();
+                mDataOutputStream.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
 
             }
-            out = null;
+            mDataOutputStream = null;
         }
     }
 
@@ -135,9 +126,9 @@ public class OBSocketImgSend {
 
         Log.i(TAG, "send length:" + imgData.length);
         try {
-            pw.println("" + imgData.length);
-            line = br.readLine();
-            if (!line.equals(STATUS_SUCCESS)) {
+            mPrintWriter.println("" + imgData.length);
+            String lineData = mBufferedReader.readLine();
+            if (!lineData.equals(STATUS_SUCCESS)) {
                 Log.i(TAG, "connect fail");
                 closeSocket();
                 return;
@@ -151,8 +142,8 @@ public class OBSocketImgSend {
                 int sendLength = imgData.length - start < maxLength ? imgData.length
                         - start
                         : maxLength;
-                out.write(imgData, start, sendLength);
-                out.flush();
+                mDataOutputStream.write(imgData, start, sendLength);
+                mDataOutputStream.flush();
                 start += sendLength;
             }
         } catch (IOException ie) {
