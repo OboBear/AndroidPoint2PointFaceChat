@@ -14,170 +14,151 @@ import android.os.Handler;
 import android.util.Log;
 
 /**
- * socke
- * @author obo
+ * socket
  *
+ * @author obo
  */
 public class OBSocketImgGet {
-	
-	private final static String TAG = "OBSocketImgGet";
-	
-	Handler 			handler = null;
-	OBSocketImgGetAgent agent 	= null;
-	ServerSocket 		ss		= null;
-	Socket 				s		= null;
-	BufferedReader 		br		= null;
-	PrintWriter 		pw		= null;
-	
-	int port = 0;
-	
-	public OBSocketImgGet(OBSocketImgGetAgent agent,Handler handler ,int port)
-	{
-		this.handler 	= handler;
-		this.agent 		= agent;
-		this.port		= port;
-		
-		aliveFlag = true;
-		
-		new Thread() {
-			public void run() {
-				startSocket();
-			}
-		}.start();
-	}
-	
-	boolean aliveFlag = true;
-	public void close()
-	{
-		aliveFlag = false;
-		
-		closeSocket();
-		
-	}
-	
-	private void startSocket() {
 
-		while (aliveFlag) {
-			
-			try {
-				// ��ʼ��socket
-				initSocket();
-			} catch (IOException ie) {
-				ie.printStackTrace();
-			} catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			
-			while (aliveFlag) {
-				try {
-					final String line = new String(br.readLine().getBytes(
-							"UTF-8"));
-					
-					System.out.println(line);
-					int length = Integer.parseInt(line);
-					
-					pw.println(new String("SUCCESS"));
-					
-					Log.i("", "length:" + length);
-					// ��ȡ����
-					DataInputStream in = new DataInputStream(s.getInputStream());
-					final byte[] testR = new byte[length];
+    private final static String TAG = "OBSocketImgGet";
 
-					int start = 0;
-					int readLength;
-					int maxLength = 4096;
-					while ((readLength = in.read(testR, start, testR.length
-							- start < maxLength ? testR.length - start
-							: maxLength)) > 0) {
-						Log.i("", "readLength:"+readLength);
-						start += readLength;
-						if (start == length)
-							break;
-					}
+    private Handler handler = null;
+    private OBSocketImgGetAgent agent = null;
+    private ServerSocket serverSocket = null;
+    private Socket socket = null;
+    private BufferedReader br = null;
+    private PrintWriter pw = null;
 
-					handler.post(new Runnable() {
-						public void run() {
-							final Bitmap piture = BitmapFactory
-									.decodeByteArray(testR, 0, testR.length);
-							agent.getImg(piture);
-						}
-					});
-				} catch (IOException ie) {
-					ie.printStackTrace();
-					break;
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-//					������������ǰ����
-					break;
-				}
-			}
-			
-			Log.i("", "���Թرյ�ǰsocket");
-			closeSocket();
-		}
-		
-		closeSocket();
-		
-		Log.i(TAG,TAG+"��  �������");
-		Log.i(TAG,TAG+"��  �ͷŶ˿ڣ�"+ port);
-	}
-	
-	private void closeSocket()
-	{
-		if(br!=null)
-		{
-			try {
-				br.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			br = null;
-		}
-		if(pw!=null)
-		{
-			pw.close();
-			pw = null;
-		}
-		if(s!=null)
-		{
-			try {
-				s.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			s = null;
-		}
-		if(ss!=null)
-		{
-			try {
-				ss.close();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			ss = null;
-		}
-	}
-	
-	private void initSocket() throws IOException,Exception
-	{
+    private int port = 0;
 
-		Log.i("", "�󶨵��˿ڼ���");
-		ss = new ServerSocket(port);
+    public OBSocketImgGet(OBSocketImgGetAgent agent, Handler handler, int port) {
+        this.handler = handler;
+        this.agent = agent;
+        this.port = port;
 
-		
-		System.out.println("Server is starting...");
-		//�����ⲿ����
-		Log.i(TAG, "����socket��������");
-		s = ss.accept();
-		System.out.println("����Ŀͻ���ַ��"+s.getInetAddress());
-		br = new BufferedReader(new InputStreamReader(
-				s.getInputStream()));
-		pw = new PrintWriter(s.getOutputStream(), true);
-	}
+        aliveFlag = true;
+
+        new Thread() {
+            public void run() {
+                startSocket();
+            }
+        }.start();
+    }
+
+    boolean aliveFlag = true;
+
+    public void close() {
+
+        aliveFlag = false;
+        closeSocket();
+    }
+
+    private void startSocket() {
+
+        while (aliveFlag) {
+            try {
+                initSocket();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            while (aliveFlag) {
+                try {
+                    final String line = new String(br.readLine().getBytes("UTF-8"));
+
+                    System.out.println(line);
+                    int length = Integer.parseInt(line);
+
+                    pw.println("SUCCESS");
+
+                    Log.i(TAG, "length:" + length);
+                    DataInputStream in = new DataInputStream(socket.getInputStream());
+                    final byte[] testR = new byte[length];
+
+                    int start = 0;
+                    int readLength;
+                    int maxLength = 4096;
+                    while ((readLength = in.read(testR, start, testR.length
+                            - start < maxLength ? testR.length - start
+                            : maxLength)) > 0) {
+                        Log.i("", "readLength:" + readLength);
+                        start += readLength;
+                        if (start == length)
+                            break;
+                    }
+
+                    handler.post(new Runnable() {
+                        public void run() {
+                            final Bitmap piture = BitmapFactory
+                                    .decodeByteArray(testR, 0, testR.length);
+                            agent.getImg(piture);
+                        }
+                    });
+                } catch (IOException ie) {
+                    ie.printStackTrace();
+                    break;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+
+            Log.i("", "");
+            closeSocket();
+        }
+
+        closeSocket();
+
+        Log.i(TAG, "" + port);
+    }
+
+    private void closeSocket() {
+        if (br != null) {
+            try {
+                br.close();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            br = null;
+        }
+
+        if (pw != null) {
+            pw.close();
+            pw = null;
+        }
+
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            socket = null;
+        }
+        if (serverSocket != null) {
+            try {
+                serverSocket.close();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            serverSocket = null;
+        }
+    }
+
+    private void initSocket() throws Exception {
+
+        Log.i(TAG, "");
+        serverSocket = new ServerSocket(port);
+
+        System.out.println("Server is starting...");
+        Log.i(TAG, "");
+        socket = serverSocket.accept();
+        System.out.println("" + socket.getInetAddress());
+        br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        pw = new PrintWriter(socket.getOutputStream(), true);
+    }
 
 }

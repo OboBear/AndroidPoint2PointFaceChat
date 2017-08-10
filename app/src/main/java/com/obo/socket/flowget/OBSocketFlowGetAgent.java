@@ -8,5 +8,5 @@ import android.graphics.Bitmap;
  */
 public interface OBSocketFlowGetAgent  
 {
-	public abstract void getFlow(byte[] flow);
+	void getFlow(byte[] flow);
 }

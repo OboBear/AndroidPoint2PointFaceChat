@@ -8,5 +8,5 @@ import android.graphics.Bitmap;
  */
 public interface OBSocketImgGetAgent  
 {
-	public abstract void getImg(Bitmap bmp);
+	void getImg(Bitmap bmp);
 }

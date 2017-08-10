@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidPoint2PointFaceChat.iml" filepath="$PROJECT_DIR$/AndroidPoint2PointFaceChat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/视频语音聊天.iml" filepath="$PROJECT_DIR$/视频语音聊天.iml" />
     </modules>
   </component>
 </project>

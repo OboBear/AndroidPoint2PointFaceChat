@@ -4,5 +4,5 @@ import android.graphics.Bitmap;
 
 public interface OBCameraAgent 
 {
-	public abstract void getCameraImg(Bitmap bitmap);
+	void getCameraImg(Bitmap bitmap);
 }

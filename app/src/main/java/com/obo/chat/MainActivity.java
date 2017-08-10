@@ -148,11 +148,6 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
 
 
     private void closeAll() {
-//		if(oboCamera!=null)
-//		{
-//			oboCamera.close();
-//			oboCamera = null; 
-//		}
 
         if (oboRecord != null) {
             try {

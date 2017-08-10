@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/res/merged/debug/layout/temp_activitiy.xml",
+        "source": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/layout/temp_activitiy.xml"
+    },
+    {
+        "merged": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/res/merged/debug/layout/dialog_edit.xml",
+        "source": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/layout/dialog_edit.xml"
+    },
+    {
+        "merged": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/layout/activity_main.xml"
+    }
+]
