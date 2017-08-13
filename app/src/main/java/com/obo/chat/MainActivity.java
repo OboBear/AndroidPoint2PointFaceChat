@@ -11,6 +11,7 @@ import com.obo.socket.flowget.OBSocketFlowGet;
 import com.obo.socket.flowget.OBSocketFlowGetAgent;
 import com.obo.socket.flowsend.OBSendFlow;
 import com.obo.track.play.OBTrack;
+import com.obo.util.ThreadPool;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,29 +53,35 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     }
 
     private void initActions() {
-
         for (int i = 0; i < imgGet.length; i++) {
+            // Init image get socket
             if (imgGet[i] == null) {
                 imgGet[i] = new OBSocketImgGet(this, handler, 10000 + i);
             }
 
+            // Init image send socket
             if (imgSend[i] == null) {
                 imgSend[i] = new OBSocketImgSend(IP, 10000 + i);
             }
         }
 
+        // Init send socket
         if (mSendFlow == null) {
             mSendFlow = new OBSendFlow(IP, 10005);
         }
 
+        // Init get socket
         if (mSocketFlowGet == null) {
-            mSocketFlowGet = new com.obo.socket.flowget.OBSocketFlowGet(this, handler, 10005);
+            mSocketFlowGet = new OBSocketFlowGet(this, handler, 10005);
         }
 
+
+        // Init Audio recorder
         if (oboRecord == null) {
             oboRecord = new OBRecord(this);
         }
 
+        // Init Audio player
         if (oboTrack == null) {
             oboTrack = new OBTrack();
         }
@@ -92,8 +99,13 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
 
     @Override
     public void changeIp() {
-        closeAll();
-        initActions();
+        ThreadPool.getInstance().exec(new Runnable() {
+            @Override
+            public void run() {
+                closeAll();
+                initActions();
+            }
+        });
     }
 
     private int currentSend = 0;
@@ -126,14 +138,28 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
     public void onResume() {
         super.onResume();
         Log.i(TAG, "onResume");
-        initActions();
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                initActions();
+            }
+        }.start();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.i(TAG, "onStart");
-        initActions();
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                initActions();
+            }
+        }.start();
+
     }
 
     @Override

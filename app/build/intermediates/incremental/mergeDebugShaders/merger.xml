@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/debug/shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/shaders"/></dataSet><dataSet config="debug"><source path="/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/debug/shaders"/></dataSet></merger>

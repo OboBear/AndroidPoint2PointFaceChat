@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.obo.chat"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 21
+        targetSdkVersion 25
     }
 
     buildTypes {

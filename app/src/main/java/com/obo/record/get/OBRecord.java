@@ -8,6 +8,7 @@ import android.media.MediaRecorder;
 import android.util.Log;
 
 /**
+ * Audio recorder
  * @author obo
  */
 public class OBRecord implements Runnable {

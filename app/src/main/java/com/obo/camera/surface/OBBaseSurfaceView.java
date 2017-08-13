@@ -67,13 +67,9 @@ public abstract class OBBaseSurfaceView extends SurfaceView implements
     public void surfaceCreated(SurfaceHolder holder) {
 
         mCamera = Camera.open(CameraInfo.CAMERA_FACING_FRONT);
-//		mCamera = Camera.open(CameraInfo.CAMERA_FACING_BACK);
         mCamera.getParameters().setPictureSize(100, 120);
         mCamera.getParameters().setPreviewSize(100, 120);
-//		mCamera.getParameters().setJpegQuality(30);
-
         mCamera.setDisplayOrientation(90);
-
         mCamera.setPreviewCallback(new PreviewCallback() {
             public void onPreviewFrame(byte[] data, Camera camera) {
                 synchronized (OBBaseSurfaceView.this) {
@@ -121,9 +117,7 @@ public abstract class OBBaseSurfaceView extends SurfaceView implements
                     ByteArrayOutputStream os = new ByteArrayOutputStream(
                             mFrame.length);
                     if (image.compressToJpeg(new Rect(0, 0, width, height), 100, os)) {
-
                         byte[] tmp = os.toByteArray();
-
                         piture = BitmapFactory.decodeByteArray(tmp, 0,
                                 tmp.length);
                         Log.i(TAG, "base");
@@ -141,9 +135,4 @@ public abstract class OBBaseSurfaceView extends SurfaceView implements
             }
         }
     }
-
-    public void close() {
-        mThreadRun = false;
-    }
-
 }

@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "outputFile": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/dimens.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 164
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/dimens.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 217
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 261
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -87,7 +87,7 @@
                     "endOffset": 314
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -107,7 +107,7 @@
                     "endOffset": 605
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/styles.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -128,7 +128,7 @@
                     "endOffset": 765
                 },
                 "from": {
-                    "file": "/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/src/main/res/values/styles.xml",
+                    "file": "/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,

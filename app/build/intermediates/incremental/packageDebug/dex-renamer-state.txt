@@ -1,4 +1,4 @@
-#Thu Aug 10 19:39:30 CST 2017
-base.0=/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Sun Aug 13 23:28:39 CST 2017
+base.0=/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
-file.0=/Users/obo/Desktop/workspace/android/workspace/点到点视频/AndroidPoint2PointFaceChat/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+file.0=/Users/obo/Desktop/Workspace/android/demos/局域网视频聊天/AndroidPoint2PointFaceChat/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
