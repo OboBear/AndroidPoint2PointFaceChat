@@ -61,13 +61,13 @@ public class MainActivity extends BaseActivity implements OBSocketImgGetAgent, O
 
             // Init image send socket
             if (imgSend[i] == null) {
-                imgSend[i] = new OBSocketImgSend(IP, 10000 + i);
+                imgSend[i] = new OBSocketImgSend(mIP, 10000 + i);
             }
         }
 
         // Init send socket
         if (mSendFlow == null) {
-            mSendFlow = new OBSendFlow(IP, 10005);
+            mSendFlow = new OBSendFlow(mIP, 10005);
         }
 
         // Init get socket

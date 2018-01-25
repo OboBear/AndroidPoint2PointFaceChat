@@ -22,7 +22,6 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 import android.widget.ImageView;
 
 import java.nio.ByteBuffer;

@@ -13,11 +13,11 @@ import android.util.Log;
  */
 public class OBRecord implements Runnable {
 
-    protected AudioRecord audioRecord;
-    protected int mInBufSize;
-    protected byte[] mInBytes;
-    protected boolean mKeepRunning;
-    protected LinkedList<byte[]> mLinkedList;
+    private AudioRecord mAudioRecord;
+    private int mInBufSize;
+    private byte[] mInBytes;
+    private boolean mKeepRunning;
+    private LinkedList<byte[]> mLinkedList;
 
     private OBRecordFlowAgent agent;
 
@@ -32,13 +32,13 @@ public class OBRecord implements Runnable {
         mKeepRunning = false;
 
         try {
-            audioRecord.stop();
-            audioRecord.release();
+            mAudioRecord.stop();
+            mAudioRecord.release();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        audioRecord = null;
+        mAudioRecord = null;
     }
 
 
@@ -48,7 +48,7 @@ public class OBRecord implements Runnable {
                 AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 AudioFormat.ENCODING_PCM_16BIT);
 
-        audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000,
+        mAudioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC, 8000,
                 AudioFormat.CHANNEL_CONFIGURATION_MONO,
                 AudioFormat.ENCODING_PCM_16BIT, mInBufSize);
 
@@ -65,11 +65,11 @@ public class OBRecord implements Runnable {
 
         try {
             byte[] bytes_pkg;
-            audioRecord.startRecording();
+            mAudioRecord.startRecording();
             while (mKeepRunning) {
 
                 Log.i("", "");
-                audioRecord.read(mInBytes, 0, mInBufSize);
+                mAudioRecord.read(mInBytes, 0, mInBufSize);
                 bytes_pkg = mInBytes.clone();
                 if (mLinkedList.size() >= 2) {
                     agent.sendFlow(mInBytes);

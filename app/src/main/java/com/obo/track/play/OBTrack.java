@@ -7,15 +7,15 @@ import android.media.AudioTrack;
 
 public class OBTrack {
 
-    protected AudioTrack audioTrack;
-    protected int mOutBufSize;
-    protected boolean mIsAlive;
+    private AudioTrack audioTrack;
+    private int mOutBufSize;
+    private boolean mIsAlive;
 
     public OBTrack() {
         init();
     }
 
-    public void init() {
+    private void init() {
 
         try {
             mIsAlive = true;
@@ -44,8 +44,6 @@ public class OBTrack {
             audioTrack.release();
         } catch (Exception e) {
             e.printStackTrace();
-
-
         }
         audioTrack = null;
 

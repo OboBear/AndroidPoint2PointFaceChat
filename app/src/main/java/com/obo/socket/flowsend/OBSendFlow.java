@@ -10,10 +10,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * @author obo
+ */
 public class OBSendFlow {
     private final static String TAG = "OBSendFlow";
-    String url;
-    int port;
+    private String url;
+    private int port;
 
     public OBSendFlow(String url, int port) {
         this.url = url;
@@ -26,42 +29,39 @@ public class OBSendFlow {
         processFrame(baos);
     }
 
-    int dif = 0;
-    boolean sendingFree = true;
+    private boolean sendingFree = true;
 
     protected void processFrame(final byte[] imgData) {
         // TODO Auto-generated method stub
         new Thread() {
+            @Override
             public void run() {
-                Log.i(TAG, "��������" + (dif++));
                 if (sendingFree) {
                     sendingFree = false;
                     send(imgData);
-                    Log.i(TAG, "���ͽ���");
-                    dif = 0;
+                    Log.i(TAG, "send success");
                     sendingFree = true;
                 }
             }
         }.start();
     }
 
-    int number = 0;
-    Socket s;
-    BufferedReader br;
-    PrintWriter pw;
-    String line = "";
-    DataOutputStream out;
+    private Socket mSocket;
+    private BufferedReader mBufferedReader;
+    private PrintWriter mPrintWriter;
+    private String line = "";
+    private DataOutputStream out;
 
     private void initSocket() {
         closeSocket();
 
         try {
-            s = new Socket(url, port);
-            s.setReuseAddress(true);
-            s.setKeepAlive(true);
-            pw = new PrintWriter(s.getOutputStream(), true);
-            br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            out = new DataOutputStream(s.getOutputStream());
+            mSocket = new Socket(url, port);
+            mSocket.setReuseAddress(true);
+            mSocket.setKeepAlive(true);
+            mPrintWriter = new PrintWriter(mSocket.getOutputStream(), true);
+            mBufferedReader = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
+            out = new DataOutputStream(mSocket.getOutputStream());
 
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
@@ -79,31 +79,31 @@ public class OBSendFlow {
 
 
     public void close() {
-
         closeSocket();
-
     }
 
     private void closeSocket() {
-        if (br != null) {
+        if (mBufferedReader != null) {
             try {
-                br.close();
+                mBufferedReader.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            br = null;
+            mBufferedReader = null;
         }
-        if (pw != null)
-            pw.close();
-        if (s != null) {
+        if (mPrintWriter != null) {
+            mPrintWriter.close();
+        }
+
+        if (mSocket != null) {
             try {
-                s.close();
+                mSocket.close();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            s = null;
+            mSocket = null;
         }
         if (out != null) {
             try {
@@ -122,8 +122,8 @@ public class OBSendFlow {
         Log.i("", "send length:" + imgData.length);
         try {
 
-            pw.println("" + imgData.length);
-            line = br.readLine();
+            mPrintWriter.println("" + imgData.length);
+            line = mBufferedReader.readLine();
             if (!line.equals("SUCCESS")) {
                 Log.i("", "connect fail 1 ");
                 closeSocket();
@@ -132,7 +132,7 @@ public class OBSendFlow {
             }
             Log.i("", "connect SUCCESS");
 
-            // ��������
+            //
             int start = 0;
             int maxLength = 1024;
 
@@ -142,16 +142,9 @@ public class OBSendFlow {
                 out.flush();
                 start += sendLength;
             }
-
-            Log.i(TAG, "���ͳɹ�");
-
-        } catch (IOException ie) {
-            ie.printStackTrace();
-            //���³�ʼ��
-            initSocket();
-
         } catch (Exception e) {
-            //���³�ʼ��
+            Log.e(TAG, e.getMessage());
+            //创建socket
             initSocket();
         }
 

@@ -33,10 +33,12 @@ public class UDPClient {
         DatagramPacket dp_send = new DatagramPacket(str_send.getBytes(), str_send.length(), loc, serverPort);
         //定义用来接收数据的DatagramPacket实例
         DatagramPacket dp_receive = new DatagramPacket(buf, 1024);
-        //数据发向本地3000端口
-        ds.setSoTimeout(TIMEOUT);              //设置接收数据时阻塞的最长时间
-        int tries = 0;                         //重发数据的次数
-        boolean receivedResponse = false;     //是否接收到数据的标志位
+        //设置接收数据时阻塞的最长时间
+        ds.setSoTimeout(TIMEOUT);
+        //重发数据的次数
+        int tries = 0;
+        //是否接收到数据的标志位
+        boolean receivedResponse = false;
         //直到接收到数据，或者重发次数达到预定值，则退出循环
         while (!receivedResponse && tries < MAXNUM) {
             //发送数据
@@ -44,7 +46,6 @@ public class UDPClient {
             try {
                 //接收从服务端发送回来的数据
                 ds.receive(dp_receive);
-//                ds.receive(dp_receive);
                 //如果接收到的数据不是来自目标地址，则抛出异常
                 if (!dp_receive.getAddress().equals(loc)) {
                     throw new IOException("Received packet from an umknown source");
@@ -87,11 +88,6 @@ public class UDPClient {
                 tries += 1;
                 System.out.println("Time out," + (MAXNUM - tries) + " more tries...");
             }
-//            try {
-//                Thread.sleep(TIMEOUT);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
 
         ds.close();

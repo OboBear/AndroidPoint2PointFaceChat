@@ -8,7 +8,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +19,14 @@ import android.widget.TextView;
  */
 public abstract class BaseActivity extends Activity {
 
-    public SharedPreferences share;
+    private static final String TAG = "BaseActivity";
+
+    private static final String SP_IP = "sp_ip";
+
+    public SharedPreferences mSharedPreferences;
     public String myIp;
-    public String IP = "12345";
+    public String mIP = "12345";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,25 +35,23 @@ public abstract class BaseActivity extends Activity {
     }
 
     private void initDatas() {
-        share = this.getPreferences(MODE_PRIVATE);
-        IP = share.getString("IP", "183.247.162.196:8888");
+        mSharedPreferences = getSharedPreferences(SP_IP, MODE_PRIVATE);
+        mIP = mSharedPreferences.getString("mIP", "183.247.162.196:8888");
     }
 
-    ////////////////////////////////
     public abstract void changeIp();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add(0, 1, 1, "Reset IP");
+        menu.add(0, 1, 1, "Reset mIP");
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == 1) {
-//			Toast.makeText(this, "������������", Toast.LENGTH_LONG).show();
-            showBuilder("Reset IP");
+            showBuilder("Reset mIP");
         }
         return true;
     }
@@ -67,13 +69,13 @@ public abstract class BaseActivity extends Activity {
 
         final EditText eText = layout.findViewById(R.id.edit_your_ip);
 
-        eText.setText(IP);
+        eText.setText(mIP);
 
         builder.setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                IP = eText.getText().toString();
-                share.edit().putString("IP", IP).commit();
+                mIP = eText.getText().toString();
+                mSharedPreferences.edit().putString("mIP", mIP).commit();
                 changeIp();
             }
         });
